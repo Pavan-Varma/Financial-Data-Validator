@@ -175,3 +175,42 @@ Use natural language summaries explaining the issue, impacted areas, and suggest
 ## Granular Analysis for Debugging:
 Highlight specific dimensions/granularities where issues are detected (e.g., location, time period, department).
 Allow users to download a detailed report for further analysis at the identified grain level.
+
+
+# Process Steps for the Financial Data Validation System
+1. Data Ingestion
+Sources: ERP, CRM, Excel, APIs.
+Process: Data from multiple upstream sources is ingested into Google Cloud Storage (GCS).
+Transition: Data is then loaded into Google BigQuery (BQ) for storage and initial processing.
+2. Input Data Validation at Google BigQuery Level
+Objective: Detect anomalies early to prevent downstream errors.
+Process:
+Run AI/ML models or statistical methods (e.g., Z-score, IQR) to identify outliers in historical and forecasted data.
+Validate against business rules like thresholds, missing values, or unexpected patterns.
+Generate alerts for any anomalies detected.
+Output: Flagged data points are logged, and the clean data is sent to the next layer.
+3. Data Processing & Calculations in the Application Layer
+Objective: Perform complex business logic and financial calculations.
+Process:
+Retrieve validated data from Google BigQuery.
+Apply formulas, transformations, and scenario creation logic.
+Validate calculated data to ensure consistency and accuracy in the output.
+Output: Results of these calculations are either flagged for further validation or passed to the UI.
+4. User Interface (UI)
+Objective: Present validated data for end users in a user-friendly format.
+Process:
+Display both validated input and calculated data for financial analysts to create and analyze scenarios.
+Allow users to download granular data views (e.g., by month, department, location).
+Provide real-time anomaly alerts and suggestions for debugging.
+5. Report Generation
+Objective: Generate comprehensive reports for stakeholders.
+Process:
+Generate PDF reports summarizing detected anomalies, historical comparisons, and cross-referenced metrics.
+Include specific granularity where anomalies occurred to aid in debugging.
+Output: Reports can be emailed to stakeholders or downloaded from the UI for further analysis.
+6. Notification & Debugging Support
+Objective: Ensure timely actions on detected anomalies.
+Process:
+Send email alerts to responsible teams.
+Provide detailed information on the point of failure (granularity, source, type of anomaly).
+Suggest next steps for resolution.
